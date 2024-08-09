@@ -2390,7 +2390,7 @@ const EventFriendList = {
     "friend_id": 10350506
   },
   "10450303": {
-    "event_id": 39001,
+    "event_id": 20454,
     "friend_id": 10450303
   },
   "10450404": {

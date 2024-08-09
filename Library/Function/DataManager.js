@@ -647,8 +647,8 @@ function DungeonRecord(UserSessionRecord, UserIndexRecord, DungeonKey, PlayData,
 				]
 			}
 			JSONDict['ingame_result_data']['event_passive_up_list'] = UserSessionRecord['Event']['Raid'][EventID]['Passive']['event_passive_grow_list'];
-			JSONDict['update_data_list']['event_passive_list'] = [ UserSessionRecord['Event']['Raid'][EventID]['Passive'] ];
-			JSONDict['update_data_list']['raid_event_user_list'] = UserSessionRecord['Event']['Raid'][EventID]['UserData'];
+			//JSONDict['update_data_list']['event_passive_list'] = [ UserSessionRecord['Event']['Raid'][EventID]['Passive'] ];
+			//JSONDict['update_data_list']['raid_event_user_list'] = UserSessionRecord['Event']['Raid'][EventID]['UserData'];
 		}
 	}
 	else if (QuestBase == 229) {
@@ -772,6 +772,9 @@ function DungeonSkipRecord(UserSessionRecord, UserIndexRecord, DungeonKey, PlayC
 				}
 			}
 		}
+	}
+	if (UserSessionRecord['Stamina'] == true) {
+		UserIndexRecord['user_data']['quest_skip_point'] -= PlayCount;
 	}
 	const ParsedDrops = ItemParser(DropTable[0], UserSessionRecord, UserIndexRecord, "plain", UserSessionRecord['DungeonRecord']['LastQuestID']);
 	UserSessionRecord = ParsedDrops[0]; UserIndexRecord = ParsedDrops[1];

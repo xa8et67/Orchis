@@ -6128,6 +6128,13 @@ Orchis.post([iOS_Version + "/suggestion/set", Android_Version + "/suggestion/set
 				else { res.locals.UserSessionRecord['VanillaAssets'] = false; }
 				res.locals.UpdatedSessionRecord = true;
 				break;
+			case "Stamina":
+				if (res.locals.UserSessionRecord['Stamina'] == undefined || res.locals.UserSessionRecord['Stamina'] == false) {
+					res.locals.UserSessionRecord['Stamina'] = true;
+				}
+				else { res.locals.UserSessionRecord['Stamina'] = false; }
+				res.locals.UpdatedSessionRecord = true;
+				break;
 		}
 		const Split = Message.split(" ");
 		if (Split[0] == "CashMoney") {
