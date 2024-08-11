@@ -3,12 +3,12 @@ const fs = require('fs');
 
 const CharacterMap = require('../IDMaps/CharacterMap.js');
 
-const DModeWeaponMap = JSON.parse(fs.readFileSync('./Library/IDMaps/DModeMap/DModeWeaponMap.json'));
-const DModeCrestMap = JSON.parse(fs.readFileSync('./Library/IDMaps/DModeMap/DModeCrestMap.json'));
-const DModeParamMap = JSON.parse(fs.readFileSync('./Library/IDMaps/DModeMap/DModeParamMap.json'));
-const DModeSkillMap = JSON.parse(fs.readFileSync('./Library/IDMaps/DModeMap/DModeSkillMap.json'));
-const DModeAbilityMap = JSON.parse(fs.readFileSync('./Library/IDMaps/DModeMap/DModeAbilityMap.json'));
-const DModeServitorPassive = JSON.parse(fs.readFileSync('./Library/IDMaps/DModeMap/DModeServitorPassive.json'));
+const DModeWeaponMap = JSON.parse(fs.readFileSync('./Library/IDMaps/Master/DModeWeaponMap.json'));
+const DModeCrestMap = JSON.parse(fs.readFileSync('./Library/IDMaps/Master/DModeCrestMap.json'));
+const DModeParamMap = JSON.parse(fs.readFileSync('./Library/IDMaps/Master/DModeParamMap.json'));
+const DModeSkillMap = JSON.parse(fs.readFileSync('./Library/IDMaps/Master/DModeSkillMap.json'));
+const DModeAbilityMap = JSON.parse(fs.readFileSync('./Library/IDMaps/Master/DModeAbilityMap.json'));
+const DModeServitorPassive = JSON.parse(fs.readFileSync('./Library/IDMaps/Master/DModeServitorPassive.json'));
 
 const QuestEnemyList = JSON.parse(fs.readFileSync('./Library/Event/QuestEnemyList.json'));
 

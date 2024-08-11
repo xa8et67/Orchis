@@ -1,5 +1,11 @@
 // Quest Map
-var fs = require('fs');
+const fs = require('fs');
+const QuestList = fs.readdirSync('Library/IDMaps/Quest');
+let QuestData = {};
+for (const q in QuestList) {
+	QuestData[QuestList[q].slice(0, QuestList[q].length - 5)] = JSON.parse(fs.readFileSync('Library/IDMaps/Quest/' + QuestList[q]));
+}
+
 const CharacterMap = require('./CharacterMap.js');
 const DragonMap = require('./DragonMap.js');
 const WyrmprintMap = require('./WyrmprintMap.js');
@@ -8,18 +14,14 @@ const EventMap = require('./EventMap.js');
 const Rotations = JSON.parse(fs.readFileSync('./Library/Event/QuestMainRotationBonusDrops.json'));
 const QuestEnemyList = JSON.parse(fs.readFileSync('./Library/Event/QuestEnemyList.json'));
 
-const ScoreList = JSON.parse(fs.readFileSync('./Library/IDMaps/EnemyMap/QuestScoringEnemy.json'));
-const EnemyParam = JSON.parse(fs.readFileSync('./Library/IDMaps/EnemyMap/EnemyParam.json'));
-const EnemyData = JSON.parse(fs.readFileSync('./Library/IDMaps/EnemyMap/EnemyData.json'));
+const ScoreList = JSON.parse(fs.readFileSync('./Library/IDMaps/Master/QuestScoringEnemy.json'));
+const EnemyParam = JSON.parse(fs.readFileSync('./Library/IDMaps/Master/EnemyParam.json'));
+const EnemyData = JSON.parse(fs.readFileSync('./Library/IDMaps/Master/EnemyData.json'));
 
 function GetQuestInfo(QuestID, Attribute) {
-	try {
-		var QuestInfoMap = JSON.parse(fs.readFileSync('./Library/IDMaps/Quest/' + String(QuestID) + ".json"));
-		return QuestInfoMap[Attribute];
-	}
-	catch {
-		console.log("Faulty Quest ID " + QuestID);
-	}
+	if (QuestData[String(QuestID)] == undefined) { return 0; }
+	if (Attribute == undefined) { return QuestData[String(QuestID)]; }
+	return QuestData[String(QuestID)][Attribute];
 }
 
 async function IsQuestTypeMatchMulti(TabType, QuestID) {
@@ -218,7 +220,7 @@ function GetQuestDrops(QuestID, EventList, PartyData) {
 	let ManaUpFactor = 0.0;
 	let EventPointFactor = 0.0;
 	let EventMaterialFactor = 0.0;
-	const QuestInfoMap = JSON.parse(fs.readFileSync('./Library/IDMaps/Quest/' + String(QuestID) + ".json"));
+	const QuestInfoMap = GetQuestInfo(QuestID);
 	
 	const RightNow = Math.floor(Date.now() / 1000);
 	const DropMultiplier = GetMultiplier(QuestID);
@@ -415,7 +417,7 @@ function GetQuestDropsSkip(QuestID, PlayCount, EventList, PartyData) {
 	let ManaUpFactor = 0.0;
 	let EventPointFactor = 0.0;
 	let EventMaterialFactor = 0.0;
-	const QuestInfoMap = JSON.parse(fs.readFileSync('./Library/IDMaps/Quest/' + String(QuestID) + ".json"));
+	const QuestInfoMap = GetQuestInfo(QuestID);
 	
 	const QuestBase = parseInt(String(QuestID).slice(0, 3));
 	const EventID = parseInt(String(QuestID).slice(0, 5));
@@ -597,7 +599,7 @@ function GetQuestDropsSkip(QuestID, PlayCount, EventList, PartyData) {
 }
 
 function GenerateOddsList(QuestID, UserSessionRecord, Step) {
-	var QuestInfoMap = JSON.parse(fs.readFileSync('./Library/IDMaps/Quest/' + String(QuestID) + ".json"));
+	const QuestInfoMap = GetQuestInfo(QuestID);
 	const VariationID = String(QuestInfoMap['variation']);
 	let EnemyList = [];
 	if (QuestEnemyList[QuestInfoMap['area_info'][Step]['scene_path']] == undefined) { EnemyList = []; }
@@ -1243,8 +1245,7 @@ function RewardEssence(QuestID) {
 }
 
 function GetFirstReward(QuestID) {
-	const QuestInfoMap = JSON.parse(fs.readFileSync('./Library/IDMaps/Quest/' + String(QuestID) + ".json"));
-	return QuestInfoMap['first_clear'];
+	return GetQuestInfo(QuestID, 'first_clear');
 }
 
 function GetEXP(QuestID) {
@@ -1265,7 +1266,7 @@ function GetEXP(QuestID) {
 }
 
 function GetEarnPoint(QuestID, PlayData) {
-	var QuestInfoMap = JSON.parse(fs.readFileSync('./Library/IDMaps/Quest/' + String(QuestID) + ".json"));
+	const QuestInfoMap = GetQuestInfo(QuestID);
 	const VariationID = String(QuestInfoMap['variation']);
 	const EnemyList = [];
 	const EnemyID = QuestEnemyList[QuestInfoMap['area_info'][0]['scene_path']][QuestInfoMap['area_info'][0]['area_name']][VariationID];
@@ -1314,22 +1315,5 @@ function GetEarnPoint(QuestID, PlayData) {
 	}
 	return [ScoreTotal, ScoringList];
 }
-
-/*
-function QuestIDByName(QuestName) {
-	let i = 0;
-	var QuestInfoMap = JSON.parse(fs.fileReadSync('./Quest/' + String(QuestID) + ".json"));
-	while (i < Object.keys(QuestInfoMap).length) {
-		const QuestID = Object.keys(QuestInfoMap)[i];
-		if (QuestInfoMap[QuestID]['name'] == QuestName) {
-			return parseInt(Object.keys(QuestInfoMap)[i]);
-		}
-		else {
-			i++;
-		}
-	}
-	return 1;
-}
-*/
 
 module.exports = { GetQuestInfo, IsQuestTypeMatchMulti, GetQuestDrops, GetQuestDropsSkip, FormatWallDrops, RewardChest, CheckMissionClear, HasRewardCharacter, RewardCharacter, HasRewardDragon, RewardDragon, HasRewardFacility, RewardFacility, GetFirstReward, GetEarnPoint, GenerateOddsList, GetEXP }

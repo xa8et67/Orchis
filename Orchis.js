@@ -4806,13 +4806,14 @@ Orchis.post([iOS_Version + "/dungeon_start/start", Android_Version + "/dungeon_s
 		else { res.locals.UserSessionRecord['DungeonRecord']['Repeat']['track'] += 1; }
 	}
 	else { res.locals.UserSessionRecord['DungeonRecord']['Repeat']['active'] = 0; }
-		
 	if (SupportViewerID != 0) {
 		const SupportAccountRecord = await Fluoresce.Read("MasterAccountRecord", SupportViewerID);
 		SupportSessionRecord = await ReadSessionRecord(SupportAccountRecord['SessionID']); SupportIndexRecord = await ReadIndexRecord(SupportViewerID);
 		res.locals.UserSessionRecord['DungeonRecord']['LastDungeonSupportPlayer'].push({'viewer_id': SupportViewerID, 'get_mana_point': 25, 'is_friend': 1, 'apply_send_status': 0});
 		res.locals.UserSessionRecord['DungeonRecord']['LastDungeonSupportCharacter'] = DataManager.PopulateSupportData(SupportSessionRecord, SupportIndexRecord);
-		PartyListData[0]['support_data'] = res.locals.UserSessionRecord['DungeonRecord']['LastDungeonSupportCharacter'][0]; }
+		PartyListData[0]['support_data'] = res.locals.UserSessionRecord['DungeonRecord']['LastDungeonSupportCharacter'][0];
+	}
+	res.locals.UpdatedSessionRecord = true;
 	let ReviveLimit = QuestMap.GetQuestInfo(QuestID, "revives"); if (ReviveLimit == undefined) { ReviveLimit = 0; }
 	res.locals.ResponseBody['data'] = {
 		'ingame_data': {
@@ -4851,7 +4852,6 @@ Orchis.post([iOS_Version + "/dungeon_start/start", Android_Version + "/dungeon_s
 		res.locals.UserIndexRecord['quest_list'].push(QuestEntry);
 		res.locals.UpdatedIndexRecord = true;
 	}
-	res.locals.UpdatedSessionRecord = true;
 	next();
 }));
 Orchis.post([iOS_Version + "/dungeon_start/start_assign_unit", Android_Version + "/dungeon_start/start_assign_unit"], errorhandler(async (req, res, next) => {

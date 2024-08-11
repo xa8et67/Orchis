@@ -4,10 +4,10 @@ var fs = require('fs');
 var LevelMap = require('./LevelMap.js');
 var EventMap = require('./EventMap.js');
 
-const MC = JSON.parse(fs.readFileSync('Library/IDMaps/ManaCircle/MC.json'));
-const MPE = JSON.parse(fs.readFileSync('Library/IDMaps/ManaCircle/ManaPieceElement.json'));
-const MPM = JSON.parse(fs.readFileSync('Library/IDMaps/ManaCircle/ManaPieceMaterial.json'));
-const MM = JSON.parse(fs.readFileSync('Library/IDMaps/ManaCircle/ManaMaterial.json'));
+const MC = JSON.parse(fs.readFileSync('Library/IDMaps/Master/MC.json'));
+const MPE = JSON.parse(fs.readFileSync('Library/IDMaps/Master/ManaPieceElement.json'));
+const MPM = JSON.parse(fs.readFileSync('Library/IDMaps/Master/ManaPieceMaterial.json'));
+const MM = JSON.parse(fs.readFileSync('Library/IDMaps/Master/ManaMaterial.json'));
 const DefaultMPE = {
 	"_Id":0,
 	"_ElementId":0,
